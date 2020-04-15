@@ -1,6 +1,7 @@
-import React, { useContext, useMemo } from "react";
-import { Box, Heading, Image, Paragraph, ResponsiveContext } from "grommet";
-import styled from "styled-components";
+import React, { useMemo } from "react";
+import Box from "../../../infra/Box";
+import Text from "../../../infra/Text";
+import Image from "../../../infra/Image";
 import Ingredients, { Props as IngredientsProps } from "./Ingredients";
 import YoutubeVideo from "./YoutubeVideo";
 
@@ -13,20 +14,7 @@ interface Props {
   };
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-flow: column;
-  min-height: 0;
-  background: #f3f3f3;
-  border-radius: 10px;
-  margin-top: 20px;
-  padding-bottom: 20px;
-  max-width: 700px;
-`;
-
 const DetailsBox: React.FC<Props> = ({ meal }) => {
-  const size = useContext(ResponsiveContext);
-
   const {
     strMeal: title,
     strMealThumb: imageSrc,
@@ -47,48 +35,47 @@ const DetailsBox: React.FC<Props> = ({ meal }) => {
   }, [meal]);
 
   return (
-    <Wrapper>
-      <Heading level={1} size="medium" alignSelf="center">
-        {title}
-      </Heading>
+    <Box
+      flex
+      maxWidth="600px"
+      flexDirection="column"
+      bg="white"
+      mt={4}
+      sx={{
+        borderRadius: "default",
+        overflow: "hidden"
+      }}
+    >
+      <Image src={imageSrc} alt={title} />
 
-      <Box direction={size === "small" ? "column" : "row"} pad="medium">
-        <Box width="medium" alignContent="center">
-          <Image src={imageSrc} fill alignSelf="center" />
-        </Box>
+      <Box m={4}>
+        <Text fontSize={[4, 5]} fontWeight="bold" mb={4}>
+          {title}
+        </Text>
 
-        <Box pad={size === "small" ? "none" : "medium"} direction="column">
-          <Heading
-            level={5}
-            size="medium"
-            margin={{ top: "25px", bottom: "0" }}
-          >
-            Ingredients
-          </Heading>
-          <Ingredients list={ingredients} />
-        </Box>
-      </Box>
-
-      <Box pad={{ horizontal: "medium" }}>
-        <Heading level={3} size="medium" margin="0">
+        <Text fontSize={[3, 4]} fontWeight="bold" my={3}>
           Instructions
-        </Heading>
-
-        <Paragraph fill>
+        </Text>
+        <Text fontSize={2}>
           {instructions.split("\n").map(item => (
             <span key={item.slice(0, 50)}>
               {item}
               <br />
             </span>
           ))}
-        </Paragraph>
+        </Text>
 
-        <Heading level={3} size="medium">
-          How to prepare dish?
-        </Heading>
+        <Text fontSize={[3, 4]} fontWeight="bold" my={3}>
+          Ingredients
+        </Text>
+        <Ingredients list={ingredients} />
+
+        <Text fontSize={[3, 4]} fontWeight="bold" mt={4} mb={3}>
+          Preparation Video:
+        </Text>
         <YoutubeVideo url={youtubeUrl} />
       </Box>
-    </Wrapper>
+    </Box>
   );
 };
 

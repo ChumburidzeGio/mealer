@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import { ResponsiveContext } from "grommet";
+import React from "react";
+import Box from "../../../infra/Box";
+import Text from "../../../infra/Text";
 
 export interface Props {
   list: {
@@ -9,44 +9,19 @@ export interface Props {
   }[];
 }
 
-interface RespProps {
-  size: string;
-}
-
-const Wrapper = styled.div<RespProps>`
-  display: flex;
-  flex-flow: ${({ size }) => (size === "small" ? "row wrap" : "column")};
-`;
-
-const Item = styled.div<RespProps>`
-  display: flex;
-  flex-flow: row;
-  width: ${({ size }) => (size === "small" ? "50%" : "100%")};
-`;
-
-const ItemTitle = styled.div`
-  font-size: 16px;
-  font-weight: 500;
-  margin-right: 15px;
-`;
-
-const ItemSubtitle = styled.div`
-  font-size: 14px;
-`;
-
-const Ingredients: React.FC<Props> = ({ list }) => {
-  const size = useContext(ResponsiveContext);
-
-  return (
-    <Wrapper size={size}>
-      {list.map(i => (
-        <Item size={size}>
-          <ItemTitle>{i.ingredient}</ItemTitle>
-          <ItemSubtitle>{i.measure}</ItemSubtitle>
-        </Item>
-      ))}
-    </Wrapper>
-  );
-};
+const Ingredients: React.FC<Props> = ({ list }) => (
+  <Box flex flexDirection={["column", "row"]} flexWrap="wrap">
+    {list.map(i => (
+      <Box flex flexDirection="row" width={["100%", "50%"]} key={i.ingredient}>
+        <Text fontSize={2} mr={2} color="secondary">
+          {i.ingredient}
+        </Text>
+        <Text fontSize={2} fontStyle="italic">
+          {i.measure}
+        </Text>
+      </Box>
+    ))}
+  </Box>
+);
 
 export default Ingredients;

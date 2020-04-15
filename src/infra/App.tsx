@@ -11,8 +11,6 @@ const Main = styled.div`
   align-items: center;
   color: #444444;
   flex-flow: column;
-  padding-top: 48px;
-  padding-bottom: 48px;
   background: #f8f8f8;
 `;
 
